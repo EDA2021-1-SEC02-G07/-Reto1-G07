@@ -22,23 +22,20 @@ def loadDatos(catalogo):
 def loadVideos(catalogo):
     
   
-    videosfile = cf.data_dir + 'GoodReads/videos-small.csv'
+    videosfile = cf.data_dir + 'Data/videos-small.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for videosfile in input_file:
         model.addVideo(catalogo, video)
 
 def loadTags(catalogo):
    
-    tagsfile = cf.data_dir + 'GoodReads/Category-id.csv'
+    tagsfile = cf.data_dir + 'Data/Category-id.csv'
     input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
     for categoria in input_file:
         model.addVideosTag(catalogo, video)
 
 def loadVideosTags(catalogo):
-    """
-    Carga la información que asocia tags con libros.
-    """
-    videostagsfile = cf.data_dir + 'GoodReads/category-id.csv'
+    videostagsfile = cf.data_dir + 'Data/category-id.csv'
     input_file = csv.DictReader(open(videostagsfile, encoding='utf-8'))
     for categoria in input_file:
         model.addVideosTag(catalog, Videostag)
