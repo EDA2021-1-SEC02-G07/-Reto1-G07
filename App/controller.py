@@ -8,37 +8,37 @@ import csv
 
 # Inicialización del Catálogo de libros
 def initCatalogo():
-    catalogo = model.newCatalog()
+    catalogo = model.newCatalogo()
     return catalogo
 # Funciones para la carga de datos
 
 def loadDatos(catalogo):
  
-    loadvideos(catalogo)
+    loadVideos(catalogo)
+    loadCategorias(catalogo)
     loadTags(catalogo)
-    loadVideosTags(catalogo)
     sortVideos(catalogo)
 
 def loadVideos(catalogo):
     
   
-    videosfile = cf.data_dir + 'Data/videos-small.csv'
+    videosfile = cf.data_dir + 'videos-small.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for videosfile in input_file:
-        model.addVideo(catalogo, video)
+        model.addVideo(catalogo, videosfile)
 
-def loadTags(catalogo):
+def loadCategorias(catalogo):
    
-    tagsfile = cf.data_dir + 'Data/Category-id.csv'
+    tagsfile = cf.data_dir + 'category-id.csv'
     input_file = csv.DictReader(open(tagsfile, encoding='utf-8'))
     for categoria in input_file:
-        model.addVideosTag(catalogo, video)
+        model.addCategoria(catalogo, tagsfile)
 
-def loadVideosTags(catalogo):
-    videostagsfile = cf.data_dir + 'Data/category-id.csv'
+def loadTags(catalogo):
+    videostagsfile = cf.data_dir + 'videos-small.csv'
     input_file = csv.DictReader(open(videostagsfile, encoding='utf-8'))
     for categoria in input_file:
-        model.addVideosTag(catalog, Videostag)
+        model.addTag(catalogo, videostagsfile)
 
 # Funciones de ordenamiento
 def sortVideos(catalogo):
