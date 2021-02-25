@@ -17,16 +17,16 @@ def NCatalogo(n):
     cat = {'videos': None,
             'tags': None}
     if n == 1:
-        cat['videos'] = lt.newList('ARRAY_LIST')
-        cat['tags'] = lt.newList('ARRAY_LIST')
+        cat['videos'] = lt.newList('ARRAY_LIST', cmp=cmpViews)
+        cat['tags'] = lt.newList('ARRAY_LIST', cmp=cmpViews)
         return cat
     if n == 2:
-        cat['videos'] = lt.newList('LINKED_LIST')
-        cat['tags'] = lt.newList('LINKED_LIST')
+        cat['videos'] = lt.newList('LINKED_LIST', cmp=cmpViews)
+        cat['tags'] = lt.newList('LINKED_LIST', cmp=cmpViews)
         return cat
     else:
-        cat['videos'] = lt.newList('ARRAY_LIST')
-        cat['tags'] = lt.newList('ARRAY_LIST')
+        cat['videos'] = lt.newList('ARRAY_LIST', cmp=cmpViews)
+        cat['tags'] = lt.newList('ARRAY_LIST', cmp=cmpViews)
         return cat
    
 
@@ -81,6 +81,7 @@ def cmpPais(pais, p):
         return True
     else:
         return False
+
 # Funciones de ordenamiento
 
 def sortVideos(catalogo, size, cmp_f, orde):
