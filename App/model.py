@@ -13,7 +13,10 @@ una para los videos y otra para los tags.
 
 # Construccion de modelos
 def NCatalogo(n):
-
+    #Lista de países como author en el ejemplo.
+    #Link categorías con países.
+    #Se pueden hacer más listas en la pre-carga.
+    #Tags, delimeter = |, que apunta a los videos. Toca cambiar el nombre de las categorías. Bien jugado, Mario.
     cat = {'videos': None,
             'tags': None}
     if n == 1:
