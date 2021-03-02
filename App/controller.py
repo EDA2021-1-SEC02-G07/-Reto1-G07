@@ -3,15 +3,15 @@ import model
 import csv
 
 def iniciarC(n):
-    cat = model.NCatalogo(n)
-    return cat
+    catalogo = model.NCatalogo(n)
+    return catalogo
 
 # Funciones para la carga de datos
 
 def loadData(catalogo):
 
     loadV(catalogo)
-    loadT(catalogo)
+    loadCat(catalogo)
 
 def loadV(catalogo):
 
@@ -20,12 +20,12 @@ def loadV(catalogo):
     for videosfile in input_file:
         model.addV(catalogo, videosfile)
 
-def loadT(catalogo):
+def loadCat(catalogo):
    
-    tagsfile = cf.data_dir + 'category-id.csv'
-    input_file = csv.DictReader(open(tagsfile, encoding='utf-8'), delimiter = '\t')
-    for tag in input_file:
-        model.addT(catalogo, tag)
+    catfile = cf.data_dir + 'category-id.csv'
+    input_file = csv.DictReader(open(catfile, encoding='utf-8'), delimiter = '\t')
+    for cat in input_file:
+        model.addCat(catalogo, cat)
 
 # Funciones de ordenamiento
 def sortVideos(catalogo):

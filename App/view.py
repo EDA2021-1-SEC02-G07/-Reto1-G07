@@ -3,6 +3,7 @@ import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
+sys.setrecursionlimit(1000)
 
 def printMenu():
     print("Bienvenido")
@@ -52,14 +53,14 @@ while True:
         catalog = iniciarC(int(n))
         loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
-        print('Tags cargados: ' + str(lt.size(catalog['tags'])) + '\n')
+        print('Categorías cargadas: ' + str(lt.size(catalog['categorias'])) + '\n')
 
     elif int(inputs[0]) == 2:
         n = int(input("\nNúmero de videos en tendencia: "))
         if lt.size(catalog['videos']) >= n:
             #pais = input("País en el que se desea buscar: ")
             pais = 'canada'
-            orde = int(input('Presione 1 para ShellSort, 2 para SelectionSort o 3 para InsertionSort: '))
+            orde = int(input('Presione 1 para ShellSort, 2 para SelectionSort, 3 para InsertionSort, 4 para MergeSort o 5 para QuickSort: '))
             print('\nCargando datos...\n')
             videos = controller.getTendPais(catalog, n, pais, orde)
             printTendPais(videos[1])
