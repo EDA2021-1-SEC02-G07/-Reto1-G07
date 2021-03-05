@@ -2,8 +2,8 @@
 import model
 import csv
 
-def iniciarC(n):
-    catalogo = model.NCatalogo(n)
+def iniciarC():
+    catalogo = model.NCatalogo()
     return catalogo
 
 # Funciones para la carga de datos
@@ -17,9 +17,11 @@ def loadV(catalogo):
 
     videosfile = cf.data_dir + 'videos-large.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
+
     for videosfile in input_file:
         model.addV(catalogo, videosfile)
-
+    
+    
 def loadCat(catalogo):
    
     catfile = cf.data_dir + 'category-id.csv'
@@ -32,9 +34,8 @@ def sortVideos(catalogo):
    return model.sortVideos(catalogo)
 
 # Funciones de consulta sobre el catálogo
-def getTendPais(catalogo, n, pais, orde):
-    
-    tendencia = model.getTendPais(catalogo, n, pais, orde)
+def getTendPais(catalogo, pais, cate):
+    tendencia = model.getTendPais(catalogo, pais, cate)
     return tendencia
 
 

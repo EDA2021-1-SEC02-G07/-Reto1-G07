@@ -1,4 +1,5 @@
-﻿import config as cf
+﻿from DISClib.DataStructures.arraylist import getElement, isPresent
+import config as cf
 import time
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as shell
@@ -8,35 +9,17 @@ from DISClib.Algorithms.Sorting import mergesort as merge
 from DISClib.Algorithms.Sorting import quicksort as quick
 assert cf
 
-"""
-Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas:
-una para los videos y otra para los tags.
-"""
-
 # Construccion de modelos
-def NCatalogo(n):
+def NCatalogo():
     catalogo = {'videos': None,
             'categorias': None,
             'paises': None}
-    if n == 1:
-        catalogo['videos'] = lt.newList('ARRAY_LIST')
-        catalogo['categorias'] = lt.newList('ARRAY_LIST')
-        catalogo['paises'] = lt.newList('ARRAY_LIST', cmpfunction = cmpPais)
-        
-        return catalogo
-    if n == 2:
-        catalogo['videos'] = lt.newList('SINGLE_LINKED')
-        catalogo['categorias'] = lt.newList('SINGLE_LINKED')
-        catalogo['paises'] = lt.newList('SINGLE_LINKED', cmpfunction = cmpPais)
-        return catalogo
-    else:
-        catalogo['videos'] = lt.newList('ARRAY_LIST')
-        catalogo['categorias'] = lt.newList('ARRAY_LIST')
-        catalogo['paises'] = lt.newList('ARRAY_LIST', cmpfunction = cmpPais)
-        return catalogo
+
+    catalogo['videos'] = lt.newList('ARRAY_LIST')
+    catalogo['categorias'] = lt.newList('ARRAY_LIST', cmpfunction = cmpCate)
+    catalogo['paises'] = lt.newList('ARRAY_LIST', cmpfunction = cmpPais)
+    return catalogo
    
-
-
 # Funciones para agregar informacion al catalogo
 
 def addV(catalog, video):
@@ -58,12 +41,14 @@ def addPais(catalog, pais, video):
         lt.addLast(paises, paisN)
     lt.addLast(paisN['videos'], video)
 
+
+
 # Funciones para creacion de datos
 
 def newCat(name, id):
-    cat = {'name': '', 'Cat_id': ''}
+    cat = {'name': '', 'cat_id': ''}
     cat['name'] = name
-    cat['Cat_id'] = id
+    cat['cat_id'] = id
     return cat
 
 def newP(name):
@@ -74,35 +59,32 @@ def newP(name):
 
 # Funciones de consulta
 
-def getTendPais(catalogo, n, pais, orde):
+def getTendPais(catalogo, pais, cate):
     pais = pais.lower()
-    if orde == 1:
-        top = sortVideos(catalogo, n, cmpViews, shell)
-    if orde == 2:
-        top = sortVideos(catalogo, n, cmpViews, sel)
-    if orde == 3:
-        top = sortVideos(catalogo, n, cmpViews, ins)
-    if orde == 4:
-        top = sortVideos(catalogo, n, cmpViews, merge)
-    if orde == 5:
-        top = sortVideos(catalogo, n, cmpViews, quick)
-    else:
-        top = sortVideos(catalogo, n, cmpViews, shell)
- 
-
-
-
-
-
-
-    #result = []
-    #t1 = time.process_time()
-    #for x in top[1]['elements']:
-    #   if cmpPais(pais, x) == True:
-    #      result.append({'Título': x['title'], 'Visitas': x['views'], 'País': x['country']})
-    #t2 = time.process_time()
-    #t = top[0] + (t2 - t1)
+    cate = cate.lower()
+    s = time.process_time()
+    paises = getLtPais(catalogo, pais)
+    ide = getID(catalogo, cate)
+    final = lt.newList('ARRAY_LIST')
+    for x in paises['videos']['elements']:
+        if x['category_id'] == ide['cat_id']:
+            lt.addFirst(final, x)
+    top = sortVideos(final, cmpViews, quick)
+    f = time.process_time()
     return top
+ 
+def getLtPais(catalogo, pais):
+    pos = lt.isPresent(catalogo['paises'], pais)
+    if pos != 0:
+        videos = lt.getElement(catalogo['paises'], pos)
+        return videos
+
+def getID(catalogo, cate):
+    pos = lt.isPresent(catalogo['categorias'], cate)
+    if pos != 0:
+        ide = getElement(catalogo['categorias'], pos)
+        return ide
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
@@ -115,20 +97,15 @@ def cmpPais(name, pais):
         return 0
     return -1
 
-def cmpTags(name, tag):
-    if (name.lower() in tag['tags'].lower()):
+def cmpCate(name, tag):
+    if (name.lower() in tag['name'].lower()):
         return 0
     return -1
+
 # Funciones de ordenamiento
 
-def sortVideos(catalogo, size, cmp_f, orde):
-    sort_t = None
-    sub = lt.subList(catalogo['videos'], 1, size)
-    sub = sub.copy()
-    start_t = time.process_time()
-    orde.sort(sub, cmp_f)
-    stop_t = time.process_time()
-    time_f = (stop_t - start_t) *1000
+def sortVideos(lista, cmp_f, orde):
+    lista = lista.copy()
+    orde.sort(lista, cmp_f)
 
-    return time_f, sub
-
+    return lista
