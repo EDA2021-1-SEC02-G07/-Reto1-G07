@@ -7,7 +7,6 @@ def iniciarC():
     return catalogo
 
 # Funciones para la carga de datos
-
 def loadData(catalogo):
 
     loadV(catalogo)
@@ -20,8 +19,7 @@ def loadV(catalogo):
 
     for videosfile in input_file:
         model.addV(catalogo, videosfile)
-    
-    
+
 def loadCat(catalogo):
    
     catfile = cf.data_dir + 'category-id.csv'
@@ -30,13 +28,20 @@ def loadCat(catalogo):
         model.addCat(catalogo, cat)
 
 # Funciones de ordenamiento
-def sortVideos(catalogo):
-   return model.sortVideos(catalogo)
+
 
 # Funciones de consulta sobre el catálogo
 def getTendPais(catalogo, pais, cate):
-    tendencia = model.getTendPais(catalogo, pais, cate)
-    return tendencia
+    return model.TendPais(catalogo, pais, cate)
+
+def getDiasPais(pais):
+    return model.DiasPias(pais)
+
+def getDiasCat(categoria):
+    return model.DiasCat(categoria)
+
+def getLikesTag(tag):
+    return model.LikesTag(tag)
 
 
 

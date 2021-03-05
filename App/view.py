@@ -9,6 +9,7 @@ class text:
     UNDERLINE = '\033[4m'
     PURPLE = '\033[95m'
     CYAN = '\033[96m'
+    RED = '\033[91m'
     BLUE = '\033[34m'
     YELLOW = '\033[93m'
     END = '\033[0m'
@@ -16,10 +17,10 @@ class text:
 def printMenu():
     print(text.CYAN + "\nBienvenido" + text.END)
     print(text.BLUE + "1- Cargar información en el catálogo.")
-    print("2- Consultar los x videos con más views en tendencia por país.")
+    print("2- Consultar los n videos con más views en tendencia por país.")
     print("3- Consultar video que más días ha sido tendencia por país.")
     print("4- Consultar video que más días ha sido tendencia por categoría.")
-    print("5- Consultar los x videos con más likes por país con un tag.")
+    print("5- Consultar los n videos con más likes por país con un tag.")
     print("0- Salir." + text.END)
 
 def iniciarC():
@@ -44,23 +45,18 @@ def printTendPais(videos, n, pais):
         
         i +=1
 
-def PVideoDiasXpais(pais):
+def printDiasPais(pais):
     pass
-def PVideoDiasXcat(categoria):
-    if categoria:
-        print("Este es el video con más días en tendencia en la categoría" + str(categoria))
-    else:
-        print('Categoría no encontrada')
-def PMasLikesXtag(tag):
-    if pais:
-        print("Este es el video con más likes con la tag " + str(tag))
-    else:
-        print('Tag no econtrada')
+
+def printDiasCat(categoria):
+    pass
+
+def printLikesTag(tag):
+    pass
 
 catalog = None
 
 #Menú principal
-
 while True:
     printMenu()
     inputs = input(text.YELLOW + 'Seleccione una opción para continuar\n' + text.END)
@@ -79,31 +75,35 @@ while True:
             pais = input('Escriba el país en el que desee consultar las tendencias: ')
             if lt.isPresent(catalog['paises'], pais) != 0:
                 cate = input('Escriba el nombre de la categoría que desea consultar: ')
-                print(text.PURPLE + '\nCargando datos...\n' + text.END)
-                videos = controller.getTendPais(catalog, pais, cate)
-                printTendPais(videos, n, pais)
+                if lt.isPresent(catalog['categorias'], cate) != 0:
+                    print(text.PURPLE + '\nCargando datos...\n' + text.END)
+                    videos = controller.getTendPais(catalog, pais, cate)
+                    printTendPais(videos, n, pais)
+                else:
+                    print(text.RED + '\nCategoría no encontrada.\n' + text.END)
+                    sys.exit()
             else:
-                print('País no encontrado')
+                print(text.RED + '\nPaís no encontrado.\n' + text.END)
                 sys.exit()
 
         else: 
-            print('Número de tendencias excedido')
+            print(text.RED + '\nNúmero de tendencias excedido.\n' + text.END)
             sys.exit()
         
     elif int(inputs[0]) == 3:
-        n = input("País para consultar tendencia: ")
-        videos = controller.getVideoDiasXpais(catalog, int(n))
-        PVideoDiasXpais(videos)
+        n = input("País: ")
+        videos = controller.getDiasPais(catalog, int(n))
+        printDiasPais(videos)
 
     elif int(inputs[0]) == 4:
-        n = input("Categoría para consultar tendencia: ")
-        videos = controller.getVideoDiasXcat(catalog, int(n))
-        PVideoDiasXcat(videos)
+        n = input("Categoría: ")
+        videos = controller.getDiasCat(catalog, int(n))
+        printDiasCat(videos)
 
     elif int(inputs[0]) == 5:
-        n = input("Tag para consultar videos con más likes: ")
-        videos = controller.getMasLikesXtag(catalog, int(n))
-        PMasLikesXtag(videos)
+        n = input("Tag: ")
+        videos = controller.getLikesTag(catalog, int(n))
+        printLikesTag(videos)
 
     else:
         sys.exit(0)
