@@ -45,14 +45,26 @@ def printTendPais(videos, n, pais):
         
         i +=1
 
-def printDiasPais(pais):
-    pass
+def printDiasPais(video, pais):
+    print('El video con más días en tendencia en el país', pais, 'es: ')
+    print(text.YELLOW + text.UNDERLINE + 'Título:' + text.END, video[0]['title'],
+    text.YELLOW + text.UNDERLINE + 'Canal:' + text.END, video[0]['channel_title'],
+    text.YELLOW + text.UNDERLINE + 'Categoría:' + text.END, video[0]['category_id'],
+    text.YELLOW + text.UNDERLINE + 'Número de días:' + text.END, video[1])
 
-def printDiasCat(categoria):
-    pass
+def printDiasCat(video, cat):
+    print('El video con más días en tendencia en la categoría', cat, 'es: ')
+    print(text.YELLOW + text.UNDERLINE + 'Título:' + text.END, video[0]['title'],
+    text.YELLOW + text.UNDERLINE + 'Canal:' + text.END, video[0]['channel_title'],
+    text.YELLOW + text.UNDERLINE + 'Categoría:' + text.END, video[0]['category_id'],
+    text.YELLOW + text.UNDERLINE + 'Número de días:' + text.END, video[1])
 
-def printLikesTag(tag):
-    pass
+def printLikesTag(video, tag):
+    print('El video con más días en tendencia en el tag', tag, 'es: ')
+    print(text.YELLOW + text.UNDERLINE + 'Título:' + text.END, video[0]['title'],
+    text.YELLOW + text.UNDERLINE + 'Canal:' + text.END, video[0]['channel_title'],
+    text.YELLOW + text.UNDERLINE + 'Categoría:' + text.END, video[0]['category_id'],
+    text.YELLOW + text.UNDERLINE + 'Número de días:' + text.END, video[1])
 
 catalog = None
 
@@ -91,19 +103,30 @@ while True:
             sys.exit()
         
     elif int(inputs[0]) == 3:
-        n = input("País: ")
-        videos = controller.getDiasPais(catalog, int(n))
-        printDiasPais(videos)
+        p = input("País: ")
+        if lt.isPresent(catalog['paises'], p) != 0:
+            print(text.PURPLE + '\nCargando datos...\n' + text.END)
+            video = controller.getDiasPais(catalog, p)
+            printDiasPais(video, p)
+        else:
+            print(text.RED + '\nPaís no encontrado.\n' + text.END)
+            sys.exit()
+        
 
     elif int(inputs[0]) == 4:
-        n = input("Categoría: ")
-        videos = controller.getDiasCat(catalog, int(n))
-        printDiasCat(videos)
+        c = input("Categoría: ")
+        if lt.isPresent(catalog['categorias'], c) != 0:
+            print(text.PURPLE + '\nCargando datos...\n' + text.END)
+            video = controller.getDiasCat(catalog, c)
+            printDiasCat(video, c)
+        else:
+            print(text.RED + '\nCategoría no encontrada.\n' + text.END)
+            sys.exit()
 
     elif int(inputs[0]) == 5:
-        n = input("Tag: ")
-        videos = controller.getLikesTag(catalog, int(n))
-        printLikesTag(videos)
+        t = input("Tag: ")
+        video = controller.getLikesTag(catalog, t)
+        printLikesTag(video, t)
 
     else:
         sys.exit(0)

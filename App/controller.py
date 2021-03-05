@@ -14,7 +14,7 @@ def loadData(catalogo):
 
 def loadV(catalogo):
 
-    videosfile = cf.data_dir + 'videos-large.csv'
+    videosfile = cf.data_dir + 'videos-small.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
 
     for videosfile in input_file:
@@ -34,14 +34,14 @@ def loadCat(catalogo):
 def getTendPais(catalogo, pais, cate):
     return model.TendPais(catalogo, pais, cate)
 
-def getDiasPais(pais):
-    return model.DiasPias(pais)
+def getDiasPais(catalogo, pais):
+    return model.DiasPais(catalogo, pais)
 
-def getDiasCat(categoria):
-    return model.DiasCat(categoria)
+def getDiasCat(catalogo, categoria):
+    return model.DiasCat(catalogo, categoria)
 
-def getLikesTag(tag):
-    return model.LikesTag(tag)
+def getLikesTag(catalogo, tag):
+    return model.LikesTag(catalogo, tag)
 
 
 

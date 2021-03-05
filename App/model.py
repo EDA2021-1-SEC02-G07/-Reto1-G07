@@ -82,13 +82,13 @@ def TendPais(catalogo, pais, cate):
     top = sortVideos(final, cmpViews, quick)
     return top
 
-def DiasPais(pais):
+def DiasPais(catalogo, pais):
     pass
 
-def DiasCat(categoria):
+def DiasCat(catalog, categoria):
     pass
 
-def LikesTag(tag):
+def LikesTag(catalogo, tag):
     pass
 
 # Funciones adicionales
