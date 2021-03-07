@@ -1,7 +1,8 @@
-﻿from DISClib.DataStructures.arraylist import getElement, isPresent
+﻿from DISClib.DataStructures.arraylist import getElement, isPresent, iterator
 import config as cf
 import time
 from DISClib.ADT import list as lt
+import DISClib.DataStructures.listiterator as it
 from DISClib.Algorithms.Sorting import shellsort as shell
 from DISClib.Algorithms.Sorting import selectionsort as sel
 from DISClib.Algorithms.Sorting import insertionsort as ins
@@ -16,8 +17,8 @@ def NCatalogo():
             'paises': None,
             'cat_vid': None}
 
-    catalogo['videos'] = lt.newList('ARRAY_LIST')
-    catalogo['categorias'] = lt.newList('ARRAY_LIST', cmpfunction = cmpCate)
+    catalogo['videos'] = lt.newList('ARRAY_LIST', cmpfunction = cmpV_id)
+    catalogo['categorias'] = lt.newList('ARRAY_LIST', cmpfunction = cmpPais)
     catalogo['paises'] = lt.newList('ARRAY_LIST', cmpfunction = cmpPais)
     catalogo['cat_vid'] = lt.newList('ARRAY_LIST', cmpfunction = cmpPais)
     return catalogo
@@ -54,39 +55,75 @@ def addCatVid(catalog, cate, video):
         lt.addLast(categorias, catN)
     lt.addLast(catN['videos'], video)
 
-
 # Funciones para creacion de datos
 def newCat(name, id):
-    cat = {'name': '', 'cat_id': ''}
-    cat['name'] = name
+    cat = {'nombre': '', 'cat_id': ''}
+    cat['nombre'] = name
     cat['cat_id'] = id
     return cat
-
 
 def newP(name):
     pais = {'nombre': '', 'videos': None}
     pais['nombre'] = name
-    pais['videos'] = lt.newList('ARRAY_LIST')
+    pais['videos'] = lt.newList('ARRAY_LIST', cmpfunction = cmpV_id)
     return pais
 
 # Funciones de consulta
 def TendPais(catalogo, pais, cate):
     pais = pais.lower()
     cate = cate.lower()
-    paises = getLtPais(catalogo, pais)
     ide = getID(catalogo, cate)
-    final = lt.newList('ARRAY_LIST')
-    for x in paises['videos']['elements']:
-        if x['category_id'] == ide['cat_id']:
-            lt.addFirst(final, x)
+    paises = getLtPais(catalogo, pais)
+    categorias = getltCat(catalogo, ide['cat_id'])
+    pCheat = []
+    cCheat = []
+    final = lt.newList('ARRAY_LIST', cmpfunction = cmpV_id)
+    s1 = time.process_time()
+    iterator = it.newIterator(paises['videos'])
+    while it.hasNext(iterator):
+        x = it.next(iterator)
+        x = frozenset(x.items())
+        pCheat.append(x)
+    iterator = it.newIterator(categorias['videos'])
+    while it.hasNext(iterator):
+        x = it.next(iterator)
+        x = frozenset(x.items())
+        cCheat.append(x)
+    if len(pCheat) < len(cCheat):
+        SuperCheat = list(set(pCheat).intersection(cCheat))
+    else:
+        SuperCheat = list(set(cCheat).intersection(pCheat))
+    for x in SuperCheat:
+        lt.addLast(final, dict(x))
     top = sortVideos(final, cmpViews, quick)
+    s2 = time.process_time()
+    print(s2 - s1)
     return top
 
 def DiasPais(catalogo, pais):
-    pass
+    print(catalogo['videos'])
+    print(lt.getElement(catalogo['cat_vid'], 1))
+    print(lt.getElement(catalogo['paises'], 1))
 
-def DiasCat(catalog, categoria):
-    pass
+def DiasCat(catalogo, categoria):
+    cat = categoria.lower()
+    c_id = getID(catalogo, cat)
+    videos = getltCat(catalogo, c_id['cat_id'])
+    #Para usar videos hay que usar videos['videos']
+    cont = {}
+    for x in videos['videos']['elements']:
+        if x['video_id'] in cont:
+            cont[x['video_id']] +=1
+        else:
+            cont[x['video_id']] = 1
+    if '#NAME?' in cont:
+        cont.pop('#NAME?')
+        
+    v_id = list(cont.keys())
+    days = list(cont.values())
+    id_max = v_id[days.index(max(days))]
+    print(id_max)
+    return lt.getElement(videos['videos'], lt.isPresent(catalogo['videos'], id_max)), max(days)
 
 def LikesTag(catalogo, tag):
     pass
@@ -104,7 +141,11 @@ def getID(catalogo, cate):
         ide = getElement(catalogo['categorias'], pos)
         return ide
 
-
+def getltCat(catalogo, c_id):
+    pos = lt.isPresent(catalogo['cat_vid'], c_id)
+    if pos != 0:
+        videos = lt.getElement(catalogo['cat_vid'], pos)
+        return videos
 # Funciones utilizadas para comparar elementos dentro de una lista
 def cmpViews(v1, v2):
     result = float(v1['views']) > float(v2['views'])
@@ -120,6 +161,10 @@ def cmpCate(name, cate):
         return 0
     return -1
 
+def cmpV_id(name, vid):
+    if (name.lower() in vid['video_id'].lower()):
+        return 0
+    return -1
 # Funciones de ordenamiento
 def sortVideos(lista, cmp_f, orde):
     lista = lista.copy()

@@ -13,13 +13,16 @@ def loadData(catalogo):
     loadCat(catalogo)
 
 def loadV(catalogo):
-
-    videosfile = cf.data_dir + 'videos-small.csv'
+    i = 1
+    videosfile = cf.data_dir + 'videos-large.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
 
     for videosfile in input_file:
         model.addV(catalogo, videosfile)
-
+        #break
+        #if i > 9:
+            #break
+        #i +=1
 def loadCat(catalogo):
    
     catfile = cf.data_dir + 'category-id.csv'
