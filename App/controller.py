@@ -19,7 +19,7 @@ def loadV(catalogo):
 
     for videosfile in input_file:
         model.addV(catalogo, videosfile)
-        #break
+        
         #if i > 9:
             #break
         #i +=1

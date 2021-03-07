@@ -71,21 +71,24 @@ def printDiasPais(video, pais):
     print(text.YELLOW + text.UNDERLINE + 'Título:' + text.END, video[0]['title'],
     text.YELLOW + text.UNDERLINE + 'Canal:' + text.END, video[0]['channel_title'],
     text.YELLOW + text.UNDERLINE + 'Categoría:' + text.END, video[0]['category_id'],
-    text.YELLOW + text.UNDERLINE + 'Número de días:' + text.END, video[1])
+    text.YELLOW + text.UNDERLINE + 'Número de días en tendencia:' + text.END, video[1])
 
 def printDiasCat(video, cat):
     print('El video con más días en tendencia en la categoría', cat, 'es: ')
     print(text.YELLOW + text.UNDERLINE + 'Título:' + text.END, video[0]['title'],
     text.YELLOW + text.UNDERLINE + 'Canal:' + text.END, video[0]['channel_title'],
     text.YELLOW + text.UNDERLINE + 'Categoría:' + text.END, video[0]['category_id'],
-    text.YELLOW + text.UNDERLINE + 'Número de días:' + text.END, video[1])
+    text.YELLOW + text.UNDERLINE + 'Número de días en tendencia:' + text.END, video[1])
 
 def printLikesTag(video, tag):
     print('El video con más días en tendencia en el tag', tag, 'es: ')
-    print(text.YELLOW + text.UNDERLINE + 'Título:' + text.END, video[0]['title'],
-    text.YELLOW + text.UNDERLINE + 'Canal:' + text.END, video[0]['channel_title'],
-    text.YELLOW + text.UNDERLINE + 'Categoría:' + text.END, video[0]['category_id'],
-    text.YELLOW + text.UNDERLINE + 'Número de días:' + text.END, video[1])
+    print(text.YELLOW + text.UNDERLINE + 'Título:' + text.END, video['title'],
+    text.YELLOW + text.UNDERLINE + 'Canal:' + text.END, video['channel_title'],
+    text.YELLOW + text.UNDERLINE + 'Hora de publicación:' + text.END, video['publish_time'],
+    text.YELLOW + text.UNDERLINE + 'Visitas:' + text.END, video['views'],
+    text.YELLOW + text.UNDERLINE + 'Likes:' + text.END, video['likes'],
+    text.YELLOW + text.UNDERLINE + 'Dislikes:' + text.END, video['dislikes'],
+    text.YELLOW + text.UNDERLINE + 'Tags:' + text.END, video['tags'])
 
 catalog = None
 
@@ -130,18 +133,18 @@ while True:
             video = controller.getDiasPais(catalog, p)
             printDiasPais(video, p)
         else:
-            print(text.RED + '\nPaís no encontrado.\n' + text.END)
+            print(text.RED + '\nEl país no fue encontrado o no contiene videos.\n' + text.END)
             sys.exit()
         
-
     elif int(inputs[0]) == 4:
         c = input("Categoría: ")
-        if lt.isPresent(catalog['categorias'], c) != 0:
+        pos = lt.isPresent(catalog['cat_vid'], c)
+        if pos != 0: 
             print(text.PURPLE + '\nCargando datos...\n' + text.END)
             video = controller.getDiasCat(catalog, c)
             printDiasCat(video, c)
         else:
-            print(text.RED + '\nCategoría no encontrada.\n' + text.END)
+            print(text.RED + '\nLa categoría especificada no fue encontrada o no contiene videos.\n' + text.END)
             sys.exit()
 
     elif int(inputs[0]) == 5:

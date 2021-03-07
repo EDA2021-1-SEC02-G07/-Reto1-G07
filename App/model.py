@@ -78,7 +78,6 @@ def TendPais(catalogo, pais, cate):
     pCheat = []
     cCheat = []
     final = lt.newList('ARRAY_LIST', cmpfunction = cmpV_id)
-    s1 = time.process_time()
     iterator = it.newIterator(paises['videos'])
     while it.hasNext(iterator):
         x = it.next(iterator)
@@ -96,14 +95,10 @@ def TendPais(catalogo, pais, cate):
     for x in SuperCheat:
         lt.addLast(final, dict(x))
     top = sortVideos(final, cmpViews, quick)
-    s2 = time.process_time()
-    print(s2 - s1)
     return top
 
 def DiasPais(catalogo, pais):
-    print(catalogo['videos'])
-    print(lt.getElement(catalogo['cat_vid'], 1))
-    print(lt.getElement(catalogo['paises'], 1))
+    pass
 
 def DiasCat(catalogo, categoria):
     cat = categoria.lower()
@@ -111,19 +106,19 @@ def DiasCat(catalogo, categoria):
     videos = getltCat(catalogo, c_id['cat_id'])
     #Para usar videos hay que usar videos['videos']
     cont = {}
-    for x in videos['videos']['elements']:
+    iterator = it.newIterator(videos['videos'])
+    while it.hasNext(iterator):
+        x = it.next(iterator)
         if x['video_id'] in cont:
             cont[x['video_id']] +=1
         else:
             cont[x['video_id']] = 1
     if '#NAME?' in cont:
-        cont.pop('#NAME?')
-        
+        cont.pop('#NAME?')     
     v_id = list(cont.keys())
     days = list(cont.values())
     id_max = v_id[days.index(max(days))]
-    print(id_max)
-    return lt.getElement(videos['videos'], lt.isPresent(catalogo['videos'], id_max)), max(days)
+    return lt.getElement(videos['videos'], lt.isPresent(videos['videos'], id_max)), max(days)
 
 def LikesTag(catalogo, tag):
     pass
