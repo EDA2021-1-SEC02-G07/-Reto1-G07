@@ -169,11 +169,6 @@ def cmpPais(name, pais):
         return 0
     return -1
 
-def cmpCate(name, cate):
-    if (name.lower() in cate['name'].lower()):
-        return 0
-    return -1
-
 def cmpV_id(name, vid):
     if (name.lower() in vid['video_id'].lower()):
         return 0
@@ -182,6 +177,7 @@ def cmpV_id(name, vid):
 def cmpLikes(v1, v2):
     result = float(v1['likes']) > float(v2['likes'])
     return result
+
 # Funciones de ordenamiento
 def sortVideos(lista, cmp_f, orde):
     lista = lista.copy()
@@ -190,5 +186,13 @@ def sortVideos(lista, cmp_f, orde):
 
 #DEBUG
 def debug(catalogo):
-    print('No se han configurado opciones de debug.')
+    '''Para que el computador no muera hay que hacer un break en
+    controller.py con la cantidad de archivos deseados.'''
+    print('\n', '\033[30m', '\033[1m', '\033[103m', 'No se han configurado opciones de debug.', '\033[0m', '\n')
     #print(catalogo['videos'])
+    #print(catalogo['cat_vid'])
+    #print(catalogo['paises'])
+    #print(catalogo['categorias'])
+    #print(lt.getElement(catalogo['paises'], 1))
+    #print(lt.getElement(catalogo['cat_vid'], 1))
+    

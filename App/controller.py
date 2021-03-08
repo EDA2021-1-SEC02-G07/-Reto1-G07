@@ -8,23 +8,16 @@ def iniciarC():
 
 # Funciones para la carga de datos
 def loadData(catalogo):
-
     loadV(catalogo)
     loadCat(catalogo)
 
 def loadV(catalogo):
-    i = 1
     videosfile = cf.data_dir + 'videos-large.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
-
     for videosfile in input_file:
         model.addV(catalogo, videosfile)
-        #break
-        #if i > 1122:
-        #    break
-        #i +=1
+
 def loadCat(catalogo):
-   
     catfile = cf.data_dir + 'category-id.csv'
     input_file = csv.DictReader(open(catfile, encoding='utf-8'), delimiter = '\t')
     for cat in input_file:
