@@ -173,7 +173,7 @@ while True:
             sys.exit()
 
     elif int(inputs[0]) == 5:
-        t = input(text.GREEN + "\nEscriba el Tag que desea consultar: " + text.END)
+        t = input(text.GREEN + "\nEscriba el tag que desea consultar: " + text.END)
         videos = controller.getLikesTag(catalog, t)
         printLikesTag(videos, t)
 
