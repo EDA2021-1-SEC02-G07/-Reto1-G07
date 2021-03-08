@@ -32,7 +32,7 @@ def loadData(catalog):
 def printTendPais(videos, n, pais):
     if lt.size(videos) != 0:
         if lt.size(videos) >= n:
-            print('Los primeros ' + str(n) +  ' videos ordenados de', str(pais).capitalize(), 'son: ')
+            print('Los', str(n), ' videos con mas visitas de', str(pais).capitalize(), 'son: ')
             i = 1
             while i < (n + 1):
                 video =  lt.getElement(videos, i)
@@ -47,8 +47,7 @@ def printTendPais(videos, n, pais):
                 
                 i +=1
         else:
-            print(text.RED + '\nSolo hay', str(n), 'videos que cumplen con los criterios de búsqueda: ' +
-                text.END)
+            print(text.RED + '\nSolo hay', str(n), 'videos que cumplen con los criterios de búsqueda: ' + text.END)
             i = 1
             while i < (lt.size(videos) + 1):
                 video =  lt.getElement(videos, i)
@@ -80,16 +79,40 @@ def printDiasCat(video, cat):
     text.YELLOW + text.UNDERLINE + 'Categoría:' + text.END, video[0]['category_id'],
     text.YELLOW + text.UNDERLINE + 'Número de días en tendencia:' + text.END, video[1])
 
-def printLikesTag(video, tag):
-    print('El video con más días en tendencia en el tag', tag, 'es: ')
-    print(text.YELLOW + text.UNDERLINE + 'Título:' + text.END, video['title'],
-    text.YELLOW + text.UNDERLINE + 'Canal:' + text.END, video['channel_title'],
-    text.YELLOW + text.UNDERLINE + 'Hora de publicación:' + text.END, video['publish_time'],
-    text.YELLOW + text.UNDERLINE + 'Visitas:' + text.END, video['views'],
-    text.YELLOW + text.UNDERLINE + 'Likes:' + text.END, video['likes'],
-    text.YELLOW + text.UNDERLINE + 'Dislikes:' + text.END, video['dislikes'],
-    text.YELLOW + text.UNDERLINE + 'Tags:' + text.END, video['tags'])
+def printLikesTag(videos, tag):
+    n = 3
+    if lt.size(videos) != 0:
+        if lt.size(videos) >= n:
+            print('Los', str(n), 'videos con más likes con el tag', tag, 'es: ')
+            i = 1
+            while i < (n + 1):
+                video = lt.getElement(videos, i)
+                print(text.YELLOW + text.UNDERLINE + 'Título:' + text.END, video['title'],
+                text.YELLOW + text.UNDERLINE + 'Canal:' + text.END, video['channel_title'],
+                text.YELLOW + text.UNDERLINE + 'Hora de publicación:' + text.END, video['publish_time'],
+                text.YELLOW + text.UNDERLINE + 'Visitas:' + text.END, video['views'],
+                text.YELLOW + text.UNDERLINE + 'Likes:' + text.END, video['likes'],
+                text.YELLOW + text.UNDERLINE + 'Dislikes:' + text.END, video['dislikes'],
+                text.YELLOW + text.UNDERLINE + 'Tags:' + text.END, video['tags'],video['video_id'])
 
+                i +=1
+        else:
+            print(text.RED + '\nSolo hay', str(n), 'videos que cumplen con los criterios de búsqueda: ' + text.END)
+            i = 1
+            while i < (lt.size(videos) + 1):
+                video = lt.getElement(videos, i)
+                print(text.YELLOW + text.UNDERLINE + 'Título:' + text.END, video['title'],
+                text.YELLOW + text.UNDERLINE + 'Canal:' + text.END, video['channel_title'],
+                text.YELLOW + text.UNDERLINE + 'Hora de publicación:' + text.END, video['publish_time'],
+                text.YELLOW + text.UNDERLINE + 'Visitas:' + text.END, video['views'],
+                text.YELLOW + text.UNDERLINE + 'Likes:' + text.END, video['likes'],
+                text.YELLOW + text.UNDERLINE + 'Dislikes:' + text.END, video['dislikes'],
+                text.YELLOW + text.UNDERLINE + 'Tags:' + text.END, video['tags'],)
+
+                i +=1
+    else:
+        print(text.RED + '\nNo hay videos que cumplan con los criterios de búsqueda.\n' + text.END)
+        sys.exit()
 catalog = None
 
 #Menú principal
@@ -138,7 +161,7 @@ while True:
         
     elif int(inputs[0]) == 4:
         c = input("Categoría: ")
-        pos = lt.isPresent(catalog['cat_vid'], c)
+        pos = lt.isPresent(catalog['categorias'], c)
         if pos != 0: 
             print(text.PURPLE + '\nCargando datos...\n' + text.END)
             video = controller.getDiasCat(catalog, c)
@@ -149,9 +172,11 @@ while True:
 
     elif int(inputs[0]) == 5:
         t = input("Tag: ")
-        video = controller.getLikesTag(catalog, t)
-        printLikesTag(video, t)
+        videos = controller.getLikesTag(catalog, t)
+        printLikesTag(videos, t)
 
+    elif int(inputs[0]) == 6:
+        controller.getdebug(catalog)
     else:
         sys.exit(0)
 sys.exit(0)

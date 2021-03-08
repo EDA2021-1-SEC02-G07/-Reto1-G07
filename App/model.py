@@ -1,4 +1,4 @@
-﻿from DISClib.DataStructures.arraylist import getElement, isPresent, iterator
+﻿from DISClib.DataStructures.arraylist import getElement, isPresent
 import config as cf
 import time
 from DISClib.ADT import list as lt
@@ -121,7 +121,24 @@ def DiasCat(catalogo, categoria):
     return lt.getElement(videos['videos'], lt.isPresent(videos['videos'], id_max)), max(days)
 
 def LikesTag(catalogo, tag):
-    pass
+    videos = catalogo['videos']
+    tag = tag.lower()
+    iterator = it.newIterator(videos)
+    likes = lt.newList('ARRAY_LIST', cmpfunction = cmpV_id)
+    while it.hasNext(iterator):
+        x = it.next(iterator)
+        if tag in x['tags'].lower():
+            lt.addLast(likes, x)
+    topDup = sortVideos(likes, cmpLikes, quick)
+    top = lt.newList('ARRAY_LIST', cmpfunction = cmpV_id)
+    iterator = it.newIterator(topDup)
+    vidIDs = set()
+    while it.hasNext(iterator):
+        x = it.next(iterator)
+        if x['video_id'] not in vidIDs:
+            lt.addLast(top, x)
+            vidIDs.add(x['video_id'])
+    return top
 
 # Funciones adicionales
 def getLtPais(catalogo, pais):
@@ -141,6 +158,7 @@ def getltCat(catalogo, c_id):
     if pos != 0:
         videos = lt.getElement(catalogo['cat_vid'], pos)
         return videos
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 def cmpViews(v1, v2):
     result = float(v1['views']) > float(v2['views'])
@@ -160,9 +178,17 @@ def cmpV_id(name, vid):
     if (name.lower() in vid['video_id'].lower()):
         return 0
     return -1
+
+def cmpLikes(v1, v2):
+    result = float(v1['likes']) > float(v2['likes'])
+    return result
 # Funciones de ordenamiento
 def sortVideos(lista, cmp_f, orde):
     lista = lista.copy()
     orde.sort(lista, cmp_f)
-
     return lista
+
+#DEBUG
+def debug(catalogo):
+    print('No se han configurado opciones de debug.')
+    #print(catalogo['videos'])

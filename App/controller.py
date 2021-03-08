@@ -20,8 +20,8 @@ def loadV(catalogo):
     for videosfile in input_file:
         model.addV(catalogo, videosfile)
         #break
-        #if i > 9:
-            #break
+        #if i > 1122:
+        #    break
         #i +=1
 def loadCat(catalogo):
    
@@ -46,7 +46,9 @@ def getDiasCat(catalogo, categoria):
 def getLikesTag(catalogo, tag):
     return model.LikesTag(catalogo, tag)
 
-
+#DEBUG
+def getdebug(catalog):
+    return model.debug(catalog)
 
 
 
