@@ -127,8 +127,15 @@ while True:
         loadData(catalog)
         print(text.UNDERLINE + text.BOLD + 'Videos cargados:' + text.END + ' ',
         str(lt.size(catalog['videos'])))
-        print( text.UNDERLINE + text.BOLD + 'Categorías cargadas:' + text.END + ' ',
-        str(lt.size(catalog['categorias'])), '\n')
+        video = lt.getElement(catalog['videos'],1)
+        print(text.UNDERLINE + text.BOLD + 'El primer elemento cargado es: '+ text.END + ' ')
+        print('Titulo: ' + video['title'] + ', Canal: ' + video['channel_title'] + ', Trending date: ' + \
+             video['trending_date'] + ', País :' + video['country'] + ', Vistas :'+ video['views'] +\
+                  ', Likes :' + video['likes'] + ', Dislikes :' + video['dislikes'])
+        
+        
+        print( text.UNDERLINE + text.BOLD + 'Categorías cargadas:' + text.END + ' '+  str(lt.size(catalog['categorias'])), '\n')
+        print(catalog['categorias']['elements'])
 
     elif int(inputs[0]) == 2:
         n = int(input('\n' + text.GREEN + "Escriba el número de los top videos que desea consultar: " + text.END))
