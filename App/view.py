@@ -69,9 +69,9 @@ def printTendPais(videos, n, pais):
 
 def printDiasPais(video, pais):
     print('\nEl video con más días en tendencia en el país', pais, 'es: ')
-    print(text.YELLOW + text.UNDERLINE + 'Título:' + text.END, video[0]['title'],
-    text.YELLOW + text.UNDERLINE + 'Canal:' + text.END, video[0]['channel_title'],
-    text.YELLOW + text.UNDERLINE + 'Categoría:' + text.END, video[0]['category_id'],
+    print(text.YELLOW + text.UNDERLINE + 'Título:' + text.END, video['title'],
+    text.YELLOW + text.UNDERLINE + 'Canal:' + text.END, video['channel_title'],
+    text.YELLOW + text.UNDERLINE + 'Categoría:' + text.END, video['category_id'],
     text.YELLOW + text.UNDERLINE + 'Número de días en tendencia:' + text.END, video[1], '\n')
 
 def printDiasCat(video, cat):
