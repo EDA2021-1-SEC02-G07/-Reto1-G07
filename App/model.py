@@ -98,7 +98,34 @@ def TendPais(catalogo, pais, cate):
     return top
 
 def DiasPais(catalogo, pais):
-    pass
+    #video que más días ha sido trending para un país específico.
+     pospais = lt.isPresent(catalogo['paises'],pais)
+     lista = lt.getElement(catalogo['paises'], pospais)
+
+     mayor = 0
+     final = lt.newList()
+
+     videos = lista['videos']['elements']
+    
+    
+     for video in videos:
+         publicado = video['publish_time']
+         trending = video ['trending_date']
+
+         dias= int(trending[3:5])-int(publicado[8:10])
+         mes =(int(trending[6:8])-(int(publicado[5:7])))*30 
+         
+         año =(int(trending[0:2])-int(publicado[2:4]))*365
+         dias_d = año+mes+dias
+         print(dias_d)
+         if dias_d>mayor:
+             final = video
+             mayor = dias_d
+     final[1]= mayor
+     
+     return (final)
+
+.   
 
 def DiasCat(catalogo, categoria):
     cat = categoria.lower()
@@ -158,6 +185,8 @@ def getltCat(catalogo, c_id):
     if pos != 0:
         videos = lt.getElement(catalogo['cat_vid'], pos)
         return videos
+
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 def cmpViews(v1, v2):
